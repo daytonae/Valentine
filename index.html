@@ -33,13 +33,13 @@
       border: 4px solid rgba(0,0,0,.85);
     }
 
+    /* Corner photos */
     .corner{
       position:absolute;
       width: 130px;
       height: 130px;
       border-radius: 22px;
       overflow:hidden;
-      background: rgba(0,0,0,.08);
       border: 4px solid rgba(0,0,0,.85);
       box-shadow: 0 14px 30px rgba(0,0,0,.22);
     }
@@ -47,7 +47,6 @@
       width:100%;
       height:100%;
       object-fit:cover;
-      display:block;
     }
 
     .tl{ top:-42px; left:-42px; }
@@ -57,7 +56,7 @@
 
     h1{
       text-align:center;
-      margin: 0 0 18px;
+      margin-bottom:18px;
       font-size: clamp(26px, 3.6vw, 40px);
     }
 
@@ -70,8 +69,6 @@
       font-size: 16px;
       line-height: 1.6;
     }
-
-    .text-box p{ margin: 0 0 14px; }
 
     .question{
       margin-top: 18px;
@@ -98,19 +95,81 @@
       box-shadow: 0 16px 30px rgba(0,0,0,.28);
     }
 
-    #yesBtn{ font-weight: 800; }
+    #noBtn{ position: relative; }
 
-    /* default state: keep No in the flex row */
-    #noBtn{
-      position: relative;
-      left: auto;
-      top: auto;
-      transform: none;
+    /* ===== YES CELEBRATION ===== */
+
+    .celebration{
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 9998;
+    }
+
+    .hidden{ display:none; }
+
+    /* Bouquet */
+    #bouquetWrap{
+      position: fixed;
+      left: 50%;
+      bottom: -10px;
+      transform: translateX(-50%) scale(0.6);
+      opacity: 0;
+      z-index: 9999;
+      transition: transform 800ms ease, opacity 800ms ease;
+    }
+
+    #bouquetWrap.show{
+      opacity: 1;
+      transform: translateX(-50%) scale(1);
+    }
+
+    #bouquet{
+      width: min(320px, 70vw);
+      filter: drop-shadow(0 18px 26px rgba(0,0,0,.25));
+    }
+
+    /* Balloons */
+    .balloon{
+      position: fixed;
+      bottom: -120px;
+      width: 90px;
+      animation: floatUp 5.5s linear forwards;
+    }
+
+    @keyframes floatUp{
+      to { transform: translateY(-120vh); opacity: 0; }
+    }
+
+    /* Confetti hearts */
+    .heart{
+      position: fixed;
+      top: -30px;
+      font-size: 22px;
+      animation: fall 3.8s linear forwards;
+    }
+
+    @keyframes fall{
+      to { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+    }
+
+    #yesMessage{
+      position: fixed;
+      left: 50%;
+      top: 14%;
+      transform: translateX(-50%);
+      background: rgba(255,255,255,.9);
+      border: 3px solid #000;
+      border-radius: 18px;
+      padding: 14px 18px;
+      font-weight: 800;
+      text-align: center;
+      z-index: 9999;
     }
 
     @media (max-width: 520px){
-      .corner{ width: 92px; height: 92px; border-radius: 18px; }
-      .tl,.tr,.bl,.br{ top:-28px; bottom:-28px; left:-28px; right:-28px; }
+      .corner{ width: 92px; height: 92px; }
       .card{ padding: 38px 18px 92px; }
       .buttons{ gap: 42px; }
       button{ padding: 18px 28px; font-size: 16px; }
@@ -119,83 +178,90 @@
 </head>
 
 <body>
+
   <div class="card">
-    <div class="corner tl"><img src="images/pic1.jpeg" alt="Photo 1"></div>
-    <div class="corner tr"><img src="images/pic2.jpeg" alt="Photo 2"></div>
-    <div class="corner bl"><img src="images/pic3.jpg" alt="Photo 3"></div>
-    <div class="corner br"><img src="images/pic4.jpg" alt="Photo 4"></div>
+    <div class="corner tl"><img src="images/pic1.jpeg"></div>
+    <div class="corner tr"><img src="images/pic2.jpeg"></div>
+    <div class="corner bl"><img src="images/pic3.jpg"></div>
+    <div class="corner br"><img src="images/pic4.jpg"></div>
 
     <h1>Hey baby 💖</h1>
 
     <div class="text-box">
-      <p><strong>Love poem</strong><br>(replace this with your poem)</p>
-      <p><strong>Love letter</strong><br>(replace this with your letter)</p>
-
-      <p style="margin-top:18px;">
-        I wouldn’t want to spend another lifetime without you.
-      </p>
+      <p><strong>Love poem</strong><br>(replace this)</p>
+      <p><strong>Love letter</strong><br>(replace this)</p>
 
       <div class="question">Will you be my Valentine?</div>
 
-      <div class="buttons" id="btnArea">
+      <div class="buttons">
         <button id="yesBtn">Yes</button>
         <button id="noBtn">No</button>
       </div>
     </div>
   </div>
 
+  <!-- Celebration elements -->
+  <div id="celebration" class="celebration hidden"></div>
+
+  <div id="bouquetWrap">
+    <img id="bouquet" src="images/roses.png">
+  </div>
+
+  <div id="yesMessage" class="hidden">
+    Request accepted 💖<br>Happy Valentine’s Day 🫶🏽
+  </div>
+
   <script>
     const noBtn = document.getElementById("noBtn");
+    const yesBtn = document.getElementById("yesBtn");
+    const celebration = document.getElementById("celebration");
+    const bouquetWrap = document.getElementById("bouquetWrap");
+    const yesMessage = document.getElementById("yesMessage");
 
-    // HARD reset: clears any old inline positioning so it starts next to Yes
-    function resetNo() {
-      noBtn.removeAttribute("style");      // wipes old left/top/fixed
-      noBtn.style.position = "relative";   // return to flex row
-      noBtn.style.left = "auto";
-      noBtn.style.top = "auto";
-      noBtn.style.transform = "none";
-      noBtn.style.zIndex = "auto";
-    }
-
-    document.addEventListener("DOMContentLoaded", resetNo);
-    window.addEventListener("load", resetNo);
-    window.addEventListener("resize", resetNo);
-
-    function moveNoBig(e) {
-      // Teleport only when user interacts
+    function moveNo(e){
       noBtn.style.position = "fixed";
-      noBtn.style.zIndex = "9999";
-
       const pad = 12;
-      const btnW = noBtn.offsetWidth;
-      const btnH = noBtn.offsetHeight;
-
-      const vw = window.innerWidth;
-      const vh = window.innerHeight;
-
-      const cx = e?.clientX ?? vw / 2;
-      const cy = e?.clientY ?? vh / 2;
-
-      const xMin = (cx < vw / 2) ? vw / 2 : pad;
-      const xMax = (cx < vw / 2) ? (vw - btnW - pad) : (vw / 2 - btnW - pad);
-
-      const yMin = (cy < vh / 2) ? vh / 2 : pad;
-      const yMax = (cy < vh / 2) ? (vh - btnH - pad) : (vh / 2 - btnH - pad);
-
-      const x = Math.random() * (xMax - xMin) + xMin;
-      const y = Math.random() * (yMax - yMin) + yMin;
-
-      noBtn.style.left = `${Math.max(pad, Math.min(x, vw - btnW - pad))}px`;
-      noBtn.style.top  = `${Math.max(pad, Math.min(y, vh - btnH - pad))}px`;
-      noBtn.style.transform = "none";
+      const vw = innerWidth, vh = innerHeight;
+      const w = noBtn.offsetWidth, h = noBtn.offsetHeight;
+      const x = Math.random()*(vw-w-pad*2)+pad;
+      const y = Math.random()*(vh-h-pad*2)+pad;
+      noBtn.style.left = x+"px";
+      noBtn.style.top = y+"px";
     }
 
-    noBtn.addEventListener("mouseenter", moveNoBig);
-    noBtn.addEventListener("click", moveNoBig);
-    noBtn.addEventListener("touchstart", (e) => {
-      e.preventDefault();
-      moveNoBig(e);
-    }, { passive: false });
+    noBtn.addEventListener("mouseenter", moveNo);
+    noBtn.addEventListener("click", moveNo);
+    noBtn.addEventListener("touchstart", e => { e.preventDefault(); moveNo(e); });
+
+    function hearts(){
+      for(let i=0;i<40;i++){
+        const h=document.createElement("div");
+        h.className="heart";
+        h.textContent=Math.random()<.5?"💖":"💗";
+        h.style.left=Math.random()*100+"vw";
+        celebration.appendChild(h);
+        setTimeout(()=>h.remove(),4000);
+      }
+    }
+
+    function balloons(){
+      for(let i=0;i<8;i++){
+        const b=document.createElement("img");
+        b.className="balloon";
+        b.src="images/balloon1.png";
+        b.style.left=Math.random()*90+"vw";
+        celebration.appendChild(b);
+        setTimeout(()=>b.remove(),6000);
+      }
+    }
+
+    yesBtn.onclick = () => {
+      hearts();
+      balloons();
+      bouquetWrap.classList.add("show");
+      yesMessage.classList.remove("hidden");
+    };
   </script>
+
 </body>
 </html>
