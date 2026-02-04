@@ -65,13 +65,13 @@
     }
 
     .text-box{
-      background: rgba(255,255,255,.10);
-      border: 3px solid rgba(0,0,0,.85);
-      border-radius: 20px;
-      padding: 24px;
+      background: rgba(255,255,255,.22);
+      border: 3px solid rgba(0,0,0,.9);
+      border-radius: 22px;
+      padding: 28px;
       text-align:center;
       font-size: 16px;
-      line-height: 1.55;
+      line-height: 1.6;
     }
 
     .text-box p{
@@ -85,31 +85,34 @@
     }
 
     .buttons{
-      margin-top: 28px;
+      margin-top: 36px;
       display:flex;
       justify-content:center;
+      align-items:center;
       gap: 80px;
       position: relative;
-      height: 84px; /* gives room for the No button to move */
+      height: 120px; 
       align-items:center;
     }
 
     button{
-      padding: 20px 34px;
-      border-radius: 18px;
-      border: none;
-      font-size: 18px;
+      padding: 26px 44px;          
+      border-radius: 22px;
+      border: 3px solid #000;      
+      font-size: 20px;             
+      font-weight: 700;
       cursor: pointer;
       background: var(--btnPink);
-      box-shadow: 0 10px 22px rgba(0,0,0,.18);
+      box-shadow: 0 14px 28px rgba(0,0,0,.25);
     }
+
 
     #yesBtn{ font-weight: 800; }
     #noBtn{
       position:absolute;
-      left: 58%;
+      left: 50%;
       top: 50%;
-      transform: translateY(-50%);
+      transform: translate(60px, -50%);
       z-index: 9999;
     }
 
