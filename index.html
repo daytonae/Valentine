@@ -110,6 +110,7 @@
       left: 58%;
       top: 50%;
       transform: translateY(-50%);
+      z-index: 9999;
     }
 
     /* Mobile tweaks */
@@ -127,7 +128,7 @@
 
   <div class="card">
 
-    <!-- Corner photos (upload these into /images) -->
+    <!-- Corner photos -->
     <div class="corner tl"><img src="images/pic1.jpeg" alt="Photo 1"></div>
     <div class="corner tr"><img src="images/pic2.jpeg" alt="Photo 2"></div>
     <div class="corner bl"><img src="images/pic3.jpg" alt="Photo 3"></div>
@@ -158,31 +159,47 @@
   </div>
 
   <script>
-    const noBtn = document.getElementById("noBtn");
-    const btnArea = document.getElementById("btnArea");
+  const noBtn = document.getElementById("noBtn");
 
-    function moveNo(){
-      const area = btnArea.getBoundingClientRect();
-      const b = noBtn.getBoundingClientRect();
-      const pad = 8;
+  function moveNoBig(e) {
+    // Make sure it moves relative to the screen
+    noBtn.style.position = "fixed";
 
-      const maxX = area.width - b.width - pad;
-      const maxY = area.height - b.height - pad;
+    const pad = 12;
+    const btnW = noBtn.offsetWidth;
+    const btnH = noBtn.offsetHeight;
 
-      const x = Math.max(pad, Math.random() * maxX);
-      const y = Math.max(pad, Math.random() * maxY);
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
 
-      // position relative to .buttons container
-      noBtn.style.left = `${x}px`;
-      noBtn.style.top = `${y}px`;
-      noBtn.style.transform = "translate(0,0)";
-      noBtn.style.position = "absolute";
-    }
+    // cursor position (fallback for mobile)
+    const cx = e?.clientX ?? vw / 2;
+    const cy = e?.clientY ?? vh / 2;
 
-    // desktop + mobile
-    noBtn.addEventListener("mouseenter", moveNo);
-    noBtn.addEventListener("click", moveNo);
-    noBtn.addEventListener("touchstart", (e)=>{ e.preventDefault(); moveNo(); }, {passive:false});
+    // move to opposite side of cursor
+    const xMin = (cx < vw / 2) ? vw / 2 : pad;
+    const xMax = (cx < vw / 2) ? (vw - btnW - pad) : (vw / 2 - btnW - pad);
+
+    const yMin = (cy < vh / 2) ? vh / 2 : pad;
+    const yMax = (cy < vh / 2) ? (vh - btnH - pad) : (vh / 2 - btnH - pad);
+
+    const x = Math.random() * (xMax - xMin) + xMin;
+    const y = Math.random() * (yMax - yMin) + yMin;
+
+    noBtn.style.left = `${Math.max(pad, Math.min(x, vw - btnW - pad))}px`;
+    noBtn.style.top  = `${Math.max(pad, Math.min(y, vh - btnH - pad))}px`;
+    noBtn.style.transform = "none";
+  }
+
+  // Desktop + mobile
+  noBtn.addEventListener("mouseenter", moveNoBig);
+  noBtn.addEventListener("click", moveNoBig);
+  noBtn.addEventListener(
+    "touchstart",
+    (e) => { e.preventDefault(); moveNoBig(e); },
+    { passive: false }
+  );
+
   </script>
 
 </body>
