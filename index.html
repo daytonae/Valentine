@@ -108,9 +108,9 @@
     #yesBtn{ font-weight: 800; }
     #noBtn{
       position: relative;
-      left: 50%;
-      top: 50%;
-      transform: translate(60px, -50%);
+      left: auto;
+      top: auto;
+      transform: none;
       z-index: 9999;
     }
 
@@ -162,8 +162,18 @@
   <script>
   const noBtn = document.getElementById("noBtn");
 
+  // Make sure "No" starts in the normal flex position
+  function resetNo() {
+    noBtn.style.position = "relative";
+    noBtn.style.left = "auto";
+    noBtn.style.top = "auto";
+    noBtn.style.transform = "none";
+  }
+
+  resetNo();
+
   function moveNoBig(e) {
-    // Make sure it moves relative to the screen
+    // Teleport only when user interacts
     noBtn.style.position = "fixed";
 
     const pad = 12;
@@ -173,11 +183,9 @@
     const vw = window.innerWidth;
     const vh = window.innerHeight;
 
-    // cursor position (fallback for mobile)
     const cx = e?.clientX ?? vw / 2;
     const cy = e?.clientY ?? vh / 2;
 
-    // move to opposite side of cursor
     const xMin = (cx < vw / 2) ? vw / 2 : pad;
     const xMax = (cx < vw / 2) ? (vw - btnW - pad) : (vw / 2 - btnW - pad);
 
@@ -201,6 +209,8 @@
     { passive: false }
   );
 
+  // If the page resizes, re-seat the button nicely
+  window.addEventListener("resize", resetNo);
   </script>
 
 </body>
