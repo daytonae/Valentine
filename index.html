@@ -19,8 +19,6 @@
       display:flex;
       align-items:center;
       justify-content:center;
-
-      /* Your background image */
       background: url("images/Valentine.jpeg") center/cover no-repeat fixed;
     }
 
@@ -35,7 +33,6 @@
       border: 4px solid rgba(0,0,0,.85);
     }
 
-    /* Corner photos */
     .corner{
       position:absolute;
       width: 130px;
@@ -74,9 +71,7 @@
       line-height: 1.6;
     }
 
-    .text-box p{
-      margin: 0 0 14px;
-    }
+    .text-box p{ margin: 0 0 14px; }
 
     .question{
       margin-top: 18px;
@@ -88,33 +83,31 @@
       margin-top: 48px;
       display: flex;
       justify-content: center;
-      align-items:center;
+      align-items: center;
       gap: 60px;
-      align-items:center;
     }
 
     button{
-      padding: 26px 52px;          
+      padding: 26px 52px;
       border-radius: 22px;
-      border: 3px solid #000;      
-      font-size: 20px;             
+      border: 3px solid #000;
+      font-size: 20px;
       font-weight: 700;
       cursor: pointer;
       background: var(--btnPink);
       box-shadow: 0 16px 30px rgba(0,0,0,.28);
     }
 
-
     #yesBtn{ font-weight: 800; }
+
+    /* default state: keep No in the flex row */
     #noBtn{
       position: relative;
       left: auto;
       top: auto;
       transform: none;
-      z-index: 9999;
     }
 
-    /* Mobile tweaks */
     @media (max-width: 520px){
       .corner{ width: 92px; height: 92px; border-radius: 18px; }
       .tl,.tr,.bl,.br{ top:-28px; bottom:-28px; left:-28px; right:-28px; }
@@ -126,24 +119,17 @@
 </head>
 
 <body>
-
   <div class="card">
-
-    <!-- Corner photos -->
     <div class="corner tl"><img src="images/pic1.jpeg" alt="Photo 1"></div>
     <div class="corner tr"><img src="images/pic2.jpeg" alt="Photo 2"></div>
     <div class="corner bl"><img src="images/pic3.jpg" alt="Photo 3"></div>
     <div class="corner br"><img src="images/pic4.jpg" alt="Photo 4"></div>
 
-
     <h1>Hey baby 💖</h1>
 
     <div class="text-box">
-      <p><strong>Love poem</strong><br>
-        (replace this with your poem)</p>
-
-      <p><strong>Love letter</strong><br>
-        (replace this with your letter)</p>
+      <p><strong>Love poem</strong><br>(replace this with your poem)</p>
+      <p><strong>Love letter</strong><br>(replace this with your letter)</p>
 
       <p style="margin-top:18px;">
         I wouldn’t want to spend another lifetime without you.
@@ -156,62 +142,60 @@
         <button id="noBtn">No</button>
       </div>
     </div>
-
   </div>
 
   <script>
-  const noBtn = document.getElementById("noBtn");
+    const noBtn = document.getElementById("noBtn");
 
-  // Make sure "No" starts in the normal flex position
-  function resetNo() {
-    noBtn.style.position = "relative";
-    noBtn.style.left = "auto";
-    noBtn.style.top = "auto";
-    noBtn.style.transform = "none";
-  }
+    // HARD reset: clears any old inline positioning so it starts next to Yes
+    function resetNo() {
+      noBtn.removeAttribute("style");      // wipes old left/top/fixed
+      noBtn.style.position = "relative";   // return to flex row
+      noBtn.style.left = "auto";
+      noBtn.style.top = "auto";
+      noBtn.style.transform = "none";
+      noBtn.style.zIndex = "auto";
+    }
 
-  resetNo();
+    document.addEventListener("DOMContentLoaded", resetNo);
+    window.addEventListener("load", resetNo);
+    window.addEventListener("resize", resetNo);
 
-  function moveNoBig(e) {
-    // Teleport only when user interacts
-    noBtn.style.position = "fixed";
+    function moveNoBig(e) {
+      // Teleport only when user interacts
+      noBtn.style.position = "fixed";
+      noBtn.style.zIndex = "9999";
 
-    const pad = 12;
-    const btnW = noBtn.offsetWidth;
-    const btnH = noBtn.offsetHeight;
+      const pad = 12;
+      const btnW = noBtn.offsetWidth;
+      const btnH = noBtn.offsetHeight;
 
-    const vw = window.innerWidth;
-    const vh = window.innerHeight;
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
 
-    const cx = e?.clientX ?? vw / 2;
-    const cy = e?.clientY ?? vh / 2;
+      const cx = e?.clientX ?? vw / 2;
+      const cy = e?.clientY ?? vh / 2;
 
-    const xMin = (cx < vw / 2) ? vw / 2 : pad;
-    const xMax = (cx < vw / 2) ? (vw - btnW - pad) : (vw / 2 - btnW - pad);
+      const xMin = (cx < vw / 2) ? vw / 2 : pad;
+      const xMax = (cx < vw / 2) ? (vw - btnW - pad) : (vw / 2 - btnW - pad);
 
-    const yMin = (cy < vh / 2) ? vh / 2 : pad;
-    const yMax = (cy < vh / 2) ? (vh - btnH - pad) : (vh / 2 - btnH - pad);
+      const yMin = (cy < vh / 2) ? vh / 2 : pad;
+      const yMax = (cy < vh / 2) ? (vh - btnH - pad) : (vh / 2 - btnH - pad);
 
-    const x = Math.random() * (xMax - xMin) + xMin;
-    const y = Math.random() * (yMax - yMin) + yMin;
+      const x = Math.random() * (xMax - xMin) + xMin;
+      const y = Math.random() * (yMax - yMin) + yMin;
 
-    noBtn.style.left = `${Math.max(pad, Math.min(x, vw - btnW - pad))}px`;
-    noBtn.style.top  = `${Math.max(pad, Math.min(y, vh - btnH - pad))}px`;
-    noBtn.style.transform = "none";
-  }
+      noBtn.style.left = `${Math.max(pad, Math.min(x, vw - btnW - pad))}px`;
+      noBtn.style.top  = `${Math.max(pad, Math.min(y, vh - btnH - pad))}px`;
+      noBtn.style.transform = "none";
+    }
 
-  // Desktop + mobile
-  noBtn.addEventListener("mouseenter", moveNoBig);
-  noBtn.addEventListener("click", moveNoBig);
-  noBtn.addEventListener(
-    "touchstart",
-    (e) => { e.preventDefault(); moveNoBig(e); },
-    { passive: false }
-  );
-
-  // If the page resizes, re-seat the button nicely
-  window.addEventListener("resize", resetNo);
+    noBtn.addEventListener("mouseenter", moveNoBig);
+    noBtn.addEventListener("click", moveNoBig);
+    noBtn.addEventListener("touchstart", (e) => {
+      e.preventDefault();
+      moveNoBig(e);
+    }, { passive: false });
   </script>
-
 </body>
 </html>
