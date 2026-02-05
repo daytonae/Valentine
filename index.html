@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>For my Favorite Lady💘</title>
+  <title>For my Favorite Lady 💘</title>
 
   <style>
     :root{
@@ -33,15 +33,14 @@
       border: 4px solid rgba(0,0,0,.85);
     }
 
-    /* Corner photos */
     .corner{
       position:absolute;
-      width: 130px;
-      height: 130px;
-      border-radius: 22px;
+      width:130px;
+      height:130px;
+      border-radius:22px;
       overflow:hidden;
-      border: 4px solid rgba(0,0,0,.85);
-      box-shadow: 0 14px 30px rgba(0,0,0,.22);
+      border:4px solid rgba(0,0,0,.85);
+      box-shadow:0 14px 30px rgba(0,0,0,.22);
     }
     .corner img{
       width:100%;
@@ -57,134 +56,118 @@
     h1{
       text-align:center;
       margin-bottom:18px;
-      font-size: clamp(26px, 3.6vw, 40px);
+      font-size:clamp(26px,3.6vw,40px);
     }
 
     .text-box{
-      background: rgba(255,255,255,.22);
-      border: 3px solid rgba(0,0,0,.9);
-      border-radius: 22px;
-      padding: 28px;
+      background:rgba(255,255,255,.22);
+      border:3px solid rgba(0,0,0,.9);
+      border-radius:22px;
+      padding:28px;
       text-align:center;
-      font-size: 16px;
-      line-height: 1.6;
+      font-size:16px;
+      line-height:1.6;
     }
 
     .question{
-      margin-top: 18px;
-      font-size: 20px;
-      font-weight: 800;
+      margin-top:18px;
+      font-size:20px;
+      font-weight:800;
     }
 
     .buttons{
-      margin-top: 48px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 60px;
+      margin-top:48px;
+      display:flex;
+      justify-content:center;
+      gap:60px;
     }
 
     button{
-      padding: 26px 52px;
-      border-radius: 22px;
-      border: 3px solid #000;
-      font-size: 20px;
-      font-weight: 700;
-      cursor: pointer;
-      background: var(--btnPink);
-      box-shadow: 0 16px 30px rgba(0,0,0,.28);
+      padding:26px 52px;
+      border-radius:22px;
+      border:3px solid #000;
+      font-size:20px;
+      font-weight:700;
+      cursor:pointer;
+      background:var(--btnPink);
+      box-shadow:0 16px 30px rgba(0,0,0,.28);
     }
 
-    #noBtn{ position: relative; }
+    #noBtn{ position:relative; }
 
-    /* ===== YES CELEBRATION ===== */
+    /* ===== Celebration ===== */
 
     .celebration{
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      overflow: hidden;
-      z-index: 99998;
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      overflow:hidden;
+      z-index:99998;
     }
 
     .hidden{ display:none; }
 
-    /* Bouquet */
     #bouquetWrap{
-      position: fixed;
-      left: 50%;
-      bottom: -10px;
-      transform: translateX(-50%) scale(0.6);
-      opacity: 0;
-      z-index: 99999;
-      transition: transform 800ms ease, opacity 800ms ease;
+      position:fixed;
+      left:50%;
+      bottom:-10px;
+      transform:translateX(-50%) scale(0.6);
+      opacity:0;
+      z-index:99999;
+      transition:transform .8s ease, opacity .8s ease;
     }
-
     #bouquetWrap.show{
-      opacity: 1;
-      transform: translateX(-50%) scale(1);
+      opacity:1;
+      transform:translateX(-50%) scale(1);
     }
 
     #bouquet{
-      width: min(320px, 70vw);
-      filter: drop-shadow(0 18px 26px rgba(0,0,0,.25));
+      width:min(320px,70vw);
+      filter:drop-shadow(0 18px 26px rgba(0,0,0,.25));
     }
 
-    /* Balloons (visible + on top) */
     .balloon{
-      position: fixed;
-      bottom: -160px;
-      z-index: 99998;
-      opacity: 0;
-      animation: floatUp 6.5s linear forwards;
+      position:fixed;
+      bottom:-160px;
+      z-index:99998;
+      opacity:0;
+      animation:floatUp 6.5s linear forwards;
     }
 
     @keyframes floatUp{
-      0%   { transform: translateY(0); opacity: 0; }
-      12%  { opacity: 1; }
-      100% { transform: translateY(-130vh); opacity: 0; }
+      0%{ transform:translateY(0); opacity:0; }
+      12%{ opacity:1; }
+      100%{ transform:translateY(-130vh); opacity:0; }
     }
 
-    /* Confetti hearts (visible + on top) */
     .heart{
-      position: fixed;
-      top: -40px;
-      z-index: 99998;
-      opacity: 1;
-      font-size: 26px;
-      animation: fall 4.2s linear forwards;
+      position:fixed;
+      top:-40px;
+      z-index:99998;
+      font-size:26px;
+      animation:fall 4.2s linear forwards;
     }
 
     @keyframes fall{
-      0%   { transform: translateY(0) rotate(0deg); opacity: 1; }
-      100% { transform: translateY(115vh) rotate(360deg); opacity: 0; }
+      to{ transform:translateY(115vh) rotate(360deg); opacity:0; }
     }
 
-    /* Bigger message across the box */
     #yesMessage{
-      position: fixed;
-      left: 50%;
-      top: 10%;
-      transform: translateX(-50%);
-      width: min(760px, 86vw);
-      background: rgba(255,255,255,.92);
-      border: 4px solid #000;
-      border-radius: 18px;
-      padding: 18px 22px;
-      font-weight: 900;
-      font-size: 24px;
-      text-align: center;
-      z-index: 100000;
-      box-shadow: 0 18px 40px rgba(0,0,0,.25);
-      line-height: 1.2;
-    }
-
-    @media (max-width: 520px){
-      .corner{ width: 92px; height: 92px; }
-      .card{ padding: 38px 18px 92px; }
-      .buttons{ gap: 42px; }
-      button{ padding: 18px 28px; font-size: 16px; }
-      #yesMessage{ font-size: 18px; }
+      position:fixed;
+      left:50%;
+      top:10%;
+      transform:translateX(-50%);
+      width:min(760px,86vw);
+      background:rgba(255,255,255,.92);
+      border:4px solid #000;
+      border-radius:18px;
+      padding:18px 22px;
+      font-weight:900;
+      font-size:24px;
+      text-align:center;
+      z-index:100000;
+      box-shadow:0 18px 40px rgba(0,0,0,.25);
+      line-height:1.2;
     }
   </style>
 </head>
@@ -197,11 +180,11 @@
     <div class="corner bl"><img src="images/pic3.jpg"></div>
     <div class="corner br"><img src="images/pic4.jpg"></div>
 
-    <h1>To my Favorite Lady💖</h1>
+    <h1>Hey baby 💖</h1>
 
     <div class="text-box">
-      <p><strong>Love poem</strong><br>*Make sure to replace this*</p>
-      <p><strong>Love letter</strong><br>*Make sure to replace this*</p>
+      <p><strong>Love poem</strong><br>(you’ll add this)</p>
+      <p><strong>Love letter</strong><br>(you’ll add this)</p>
 
       <div class="question">Will you be my Valentine?</div>
 
@@ -212,17 +195,20 @@
     </div>
   </div>
 
-  <!-- Celebration elements -->
+  <!-- Celebration -->
   <div id="celebration" class="celebration hidden"></div>
 
   <div id="bouquetWrap">
-    <img id="bouquet" src="images/roses.png" alt="Bouquet">
+    <img id="bouquet" src="images/roses.png">
   </div>
 
   <div id="yesMessage" class="hidden">
-    <br> It’s a yes! 🥹💖
-    *add another line*
+    Thank you for choosing me.<br>
+    I choose you too — always 💖
   </div>
+
+  <!-- MUSIC -->
+  <audio id="loveSong" src="audio/valentinesong.mp3" loop></audio>
 
   <script>
     const noBtn = document.getElementById("noBtn");
@@ -230,63 +216,60 @@
     const celebration = document.getElementById("celebration");
     const bouquetWrap = document.getElementById("bouquetWrap");
     const yesMessage = document.getElementById("yesMessage");
+    const song = document.getElementById("loveSong");
 
     function moveNo(){
-      noBtn.style.position = "fixed";
-      const pad = 12;
-      const vw = innerWidth, vh = innerHeight;
-      const w = noBtn.offsetWidth, h = noBtn.offsetHeight;
-      const x = Math.random()*(vw-w-pad*2)+pad;
-      const y = Math.random()*(vh-h-pad*2)+pad;
-      noBtn.style.left = x+"px";
-      noBtn.style.top = y+"px";
+      noBtn.style.position="fixed";
+      const pad=12;
+      const x=Math.random()*(innerWidth-noBtn.offsetWidth-pad*2)+pad;
+      const y=Math.random()*(innerHeight-noBtn.offsetHeight-pad*2)+pad;
+      noBtn.style.left=x+"px";
+      noBtn.style.top=y+"px";
     }
 
     noBtn.addEventListener("mouseenter", moveNo);
     noBtn.addEventListener("click", moveNo);
-    noBtn.addEventListener("touchstart", e => { e.preventDefault(); moveNo(); }, { passive:false });
+    noBtn.addEventListener("touchstart", e=>{e.preventDefault();moveNo();});
 
     function hearts(){
       celebration.classList.remove("hidden");
       for(let i=0;i<70;i++){
         const h=document.createElement("div");
         h.className="heart";
-        h.textContent = Math.random()<0.33 ? "💖" : (Math.random()<0.5 ? "💗" : "💕");
-        h.style.left = (Math.random()*100) + "vw";
-        h.style.animationDuration = (3 + Math.random()*2) + "s";
-        h.style.fontSize = (20 + Math.random()*20) + "px";
+        h.textContent=Math.random()<.5?"💖":"💕";
+        h.style.left=Math.random()*100+"vw";
         celebration.appendChild(h);
-        setTimeout(()=>h.remove(), 6500);
+        setTimeout(()=>h.remove(),6000);
       }
     }
 
     function balloons(){
-      celebration.classList.remove("hidden");
       for(let i=0;i<10;i++){
         const b=document.createElement("img");
         b.className="balloon";
         b.src="images/balloon1.png";
-        b.style.left = (Math.random()*90 + 5) + "vw";
-        b.style.width = (70 + Math.random()*60) + "px";
-        b.style.animationDuration = (5 + Math.random()*3) + "s";
+        b.style.left=(Math.random()*90+5)+"vw";
+        b.style.width=(70+Math.random()*60)+"px";
         celebration.appendChild(b);
-        setTimeout(()=>b.remove(), 9500);
+        setTimeout(()=>b.remove(),9000);
       }
     }
 
-    yesBtn.onclick = () => {
+    yesBtn.onclick=()=>{
       celebration.classList.remove("hidden");
       hearts();
       balloons();
       bouquetWrap.classList.add("show");
       yesMessage.classList.remove("hidden");
+      document.querySelector(".buttons").style.display="none";
 
-      // optional: hide buttons after Yes
-      document.querySelector(".buttons").style.display = "none";
-
-      // optional: auto-hide message + bouquet after a bit
-      setTimeout(() => bouquetWrap.classList.remove("show"), 6500);
-      setTimeout(() => yesMessage.classList.add("hidden"), 6500);
+      song.volume=0;
+      song.play();
+      let v=0;
+      const fade=setInterval(()=>{
+        if(v<0.6){ v+=0.05; song.volume=v; }
+        else clearInterval(fade);
+      },200);
     };
   </script>
 
