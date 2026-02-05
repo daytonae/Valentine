@@ -263,8 +263,14 @@
       yesMessage.classList.remove("hidden");
       document.querySelector(".buttons").style.display="none";
 
-      song.volume=0;
-      song.play();
+      song.volume=0.5;
+      song.play().then(() => {
+        console.log("Music started");
+        }).catch((err) => {
+    console.log("❌ Music failed:", err);
+    alert("Music failed: " + err);
+  });
+    };
       let v=0;
       const fade=setInterval(()=>{
         if(v<0.6){ v+=0.05; song.volume=v; }
