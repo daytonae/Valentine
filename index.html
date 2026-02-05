@@ -95,8 +95,6 @@
 
     #noBtn{ position:relative; }
 
-    /* ===== Celebration ===== */
-
     .celebration{
       position:fixed;
       inset:0;
@@ -195,7 +193,6 @@
     </div>
   </div>
 
-  <!-- Celebration -->
   <div id="celebration" class="celebration hidden"></div>
 
   <div id="bouquetWrap">
@@ -255,7 +252,7 @@
       }
     }
 
-    yesBtn.onclick=()=>{
+    yesBtn.onclick = () => {
       celebration.classList.remove("hidden");
       hearts();
       balloons();
@@ -263,18 +260,19 @@
       yesMessage.classList.remove("hidden");
       document.querySelector(".buttons").style.display="none";
 
-      song.volume=0.5;
+      song.currentTime = 0;
+      song.volume = 0;
+
       song.play().then(() => {
-        console.log("Music started");
-        }).catch((err) => {
-    console.log("❌ Music failed:", err);
-    alert("Music failed: " + err);
-  });
-      let v=0;
-      const fade=setInterval(()=>{
-        if(v<0.6){ v+=0.05; song.volume=v; }
-        else clearInterval(fade);
-      },200);
+        let v = 0;
+        const fade = setInterval(() => {
+          v += 0.05;
+          song.volume = Math.min(v, 0.6);
+          if (song.volume >= 0.6) clearInterval(fade);
+        }, 200);
+      }).catch(err => {
+        alert("Music failed: " + err);
+      });
     };
   </script>
 
